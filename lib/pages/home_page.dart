@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_social_media_app/components/my_drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,7 +9,9 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("HomePage"),
+      
       ),
+      drawer:MyDrawer(),
     );
   }
 }
