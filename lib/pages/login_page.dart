@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_social_media_app/components/my_button.dart';
+import 'package:my_social_media_app/components/my_loading_circle.dart';
 import 'package:my_social_media_app/components/my_text_field.dart';
 import 'package:my_social_media_app/services/auth/auth_service.dart';
 
@@ -22,9 +23,15 @@ class _LoginPageState extends State<LoginPage> {
   // Login method
   void login() async {
     try {
+      //show loading circle
+      showLoadingCircle(context);
       // Use .text to get the input from the text fields
       await _auth.loginEmailPwd(emailController.text, pwdController.text);
+      //finish loading
+      if (mounted) hideLoadingCircle(context);
     } catch (e) {
+      if (mounted) hideLoadingCircle(context);
+      //show the error
       print(e.toString());
     }
   }

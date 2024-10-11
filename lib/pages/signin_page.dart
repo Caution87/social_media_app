@@ -1,6 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:my_social_media_app/components/my_button.dart';
+import 'package:my_social_media_app/components/my_loading_circle.dart';
 import 'package:my_social_media_app/components/my_text_field.dart';
+import 'package:my_social_media_app/services/auth/auth_service.dart';
 
 class SigninPage extends StatefulWidget {
   final void Function() onPressed;
@@ -11,6 +15,40 @@ class SigninPage extends StatefulWidget {
 }
 
 class _SigninPageState extends State<SigninPage> {
+  //access auth service
+  final _auth = AuthService();
+  //sigin funcn
+  void signin() async {
+    //check if passwords match
+    if (pwdController.text == confirmPwdController.text) {
+      //show loading circle
+      showLoadingCircle(context);
+      //attempt to sigin
+      try {
+        await _auth.signinEmailPwd(emailController.text, pwdController.text);
+        //finish loading
+        if (mounted) hideLoadingCircle(context);
+      } catch (e) {
+        if (mounted) hideLoadingCircle(context);
+        if (mounted) {
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: Text(e.toString()),
+                  ));
+        }
+      }
+    }
+    //passwords dont match then show error
+    else {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("Password don't match"),
+              ));
+    }
+  }
+
   //text Controller
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -55,7 +93,7 @@ class _SigninPageState extends State<SigninPage> {
               ),
               MyButton(
                 buttonText: "Signin",
-                onPressed: () {},
+                onPressed: signin,
               ),
               SizedBox(
                 height: screenHeight * 0.02,
