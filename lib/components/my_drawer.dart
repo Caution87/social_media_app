@@ -12,9 +12,15 @@ import 'package:my_social_media_app/services/auth/auth_service.dart';
 */
 class MyDrawer extends StatelessWidget {
   MyDrawer({super.key});
+  //access auth service
+  final _auth = AuthService();
+  //logout
+  void logout() {
+    _auth.logout();
+    //this _auth.logout was created by is in AuthService class 
+  }
 
   @override
-  final _auth = AuthService();
   Widget build(BuildContext context) {
     return Drawer(
       child: SafeArea(
@@ -54,7 +60,7 @@ class MyDrawer extends StatelessWidget {
                 }),
 
             //logout
-            MyDrawerTile(title: 'LOGOUT', icon: Icons.logout, onTap: () {}),
+            MyDrawerTile(title: 'LOGOUT', icon: Icons.logout, onTap: logout),
           ],
         ),
       ),
