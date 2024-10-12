@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_social_media_app/components/my_drawer_tile.dart';
+import 'package:my_social_media_app/pages/profile_page.dart';
 import 'package:my_social_media_app/pages/settings_page.dart';
 import 'package:my_social_media_app/services/auth/auth_service.dart';
 
@@ -17,7 +18,7 @@ class MyDrawer extends StatelessWidget {
   //logout
   void logout() {
     _auth.logout();
-    //this _auth.logout was created by is in AuthService class 
+    //this _auth.logout was created by is in AuthService class
   }
 
   @override
@@ -41,7 +42,19 @@ class MyDrawer extends StatelessWidget {
                   Navigator.pop(context);
                 }),
             //profile
-            MyDrawerTile(title: 'PROFILE', icon: Icons.person, onTap: () {}),
+            MyDrawerTile(
+                title: 'PROFILE',
+                icon: Icons.person,
+                onTap: () {
+                  //pop drawer
+                  Navigator.pop(context);
+                  //go to profile page
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ProfilePage(uid: _auth.getCurrentUid())));
+                }),
             //search
             MyDrawerTile(title: 'SEARCH', icon: Icons.search, onTap: () {}),
             //settings

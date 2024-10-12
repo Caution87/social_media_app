@@ -3,6 +3,8 @@ import 'package:my_social_media_app/pages/login_page.dart';
 import 'package:my_social_media_app/services/auth/login_or_signin_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:my_social_media_app/services/auth_gate.dart';
+import 'package:my_social_media_app/services/database/database_provider.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -10,7 +12,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(providers: [
+      //database provider
+      ChangeNotifierProvider(create: (context) => DatabaseProvider()),
+    ],
+    child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {

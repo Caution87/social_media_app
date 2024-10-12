@@ -13,6 +13,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_social_media_app/models/user.dart';
+import 'package:my_social_media_app/services/auth/auth_service.dart';
 
 class DatabaseService {
   //get instance of firestore database and auth
@@ -23,7 +24,8 @@ class DatabaseService {
   //whena  new user signsin we create acct for them and store their details to display on pfp
 
   //save user info
-  Future<void> saveUserInfo({required String name, required String email}) async {
+  Future<void> saveUserInfo(
+      {required String name, required String email}) async {
     //get current uid
     String uid = _auth.currentUser!.uid;
     //extract username from email
@@ -46,6 +48,18 @@ class DatabaseService {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  //Update user bio
+  Future<void> updateUserBio(String bio) async {
+    //get current uid
+    String uid = AuthService().getCurrentUid();
+    //attempt to update
+    try {
+      await _db.collection("Users").doc(uid).update({'bio': bio});
+    } catch (e) {
+      print(e);
     }
   }
 }
