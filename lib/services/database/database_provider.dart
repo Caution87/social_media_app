@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 /*
 This provider is to separate the firestore data handling and the UI of our app
 The db service class handles data to and from firebase

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_call_super
 
 import 'package:flutter/material.dart';
 import 'package:my_social_media_app/components/my_bio_box.dart';
