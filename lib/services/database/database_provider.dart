@@ -9,6 +9,7 @@ we need to separate ui and logic this is the logic
 */
 
 import 'package:flutter/material.dart';
+import 'package:my_social_media_app/models/post.dart';
 import 'package:my_social_media_app/models/user.dart';
 import 'package:my_social_media_app/services/auth/auth_service.dart';
 import 'package:my_social_media_app/services/database/database_service.dart';
@@ -30,4 +31,18 @@ class DatabaseProvider extends ChangeNotifier {
 
   //update user bio
   Future<void> updateBio(String bio) => _db.updateUserBio(bio);
+  //posts
+  //local list of posts
+  List<Post> _allPosts = [];
+
+  //get posts
+  List<Post> get allPosts => _allPosts;
+
+  //post message
+  Future<void> postMessage(String message) async {
+    //post message in firebase
+    await _db.postMessageInFirebase(message);
+  }
+
+  //fetch all posts
 }
