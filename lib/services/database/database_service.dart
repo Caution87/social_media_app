@@ -12,6 +12,7 @@
 //create class
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:my_social_media_app/models/post.dart';
 import 'package:my_social_media_app/models/user.dart';
 import 'package:my_social_media_app/services/auth/auth_service.dart';
 
@@ -62,4 +63,36 @@ class DatabaseService {
       print(e);
     }
   }
+
+//post message
+  Future<void> postMessageInFirebase(String message) async {
+    try {
+      String uid = _auth.currentUser!.uid;
+      //use this id to get the user profile
+      UserProfile? user = await getUser(uid); //getUser is a method we made
+
+      //create new post
+      Post newPost = Post(
+          id: '', //firebase witll generate,
+          likeCount: 0,
+          uid: uid,
+          name: user!.name,
+          username: user.username,
+          message: message,
+          timestamp: Timestamp.now(),
+          likedBy: []);
+
+      //convert post object to map
+      Map<String, dynamic> newPostMap = newPost.toMap();
+      //add to firestore
+      await _db.collection('Posts').add(newPostMap);
+    } catch (e) {
+      print(e);
+    }
+  }
+//delete a post
+
+//get all posts
+
+//get individual post
 }
