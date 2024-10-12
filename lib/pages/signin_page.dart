@@ -5,6 +5,7 @@ import 'package:my_social_media_app/components/my_button.dart';
 import 'package:my_social_media_app/components/my_loading_circle.dart';
 import 'package:my_social_media_app/components/my_text_field.dart';
 import 'package:my_social_media_app/services/auth/auth_service.dart';
+import 'package:my_social_media_app/services/database/database_service.dart';
 
 class SigninPage extends StatefulWidget {
   final void Function() onPressed;
@@ -15,8 +16,9 @@ class SigninPage extends StatefulWidget {
 }
 
 class _SigninPageState extends State<SigninPage> {
-  //access auth service
+  //access auth & db service
   final _auth = AuthService();
+  final _db = DatabaseService();
   //sigin funcn
   void signin() async {
     //check if passwords match
@@ -28,6 +30,9 @@ class _SigninPageState extends State<SigninPage> {
         await _auth.signinEmailPwd(emailController.text, pwdController.text);
         //finish loading
         if (mounted) hideLoadingCircle(context);
+        //once signedin create and save user profile
+        await _db.saveUserInfo(
+            name: nameController.text, email: emailController.text );
       } catch (e) {
         if (mounted) hideLoadingCircle(context);
         if (mounted) {
